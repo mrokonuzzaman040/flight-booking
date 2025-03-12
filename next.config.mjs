@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -5,9 +6,9 @@ const nextConfig = {
     domains: ['localhost', 'vercel.app'],
     formats: ['image/avif', 'image/webp'],
   },
-  // Enable experimental features
+  // Remove the experimental.serverActions config since it's available by default in Next.js 14.1.0
   experimental: {
-    serverActions: true,
+    // Any other experimental features can stay here
     serverComponentsExternalPackages: ['mongoose'],
   },
   // Configure headers for security

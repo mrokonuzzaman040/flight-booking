@@ -32,7 +32,7 @@ export default function AdminLayout({
         const response = await apiClient.get("/auth/check")
 
         if (response.success && response.data) {
-          setUser(response.data)
+          setUser(response.data as AdminUser)
         } else {
           // Only redirect if not already on the login page
           if (pathname !== "/admin/login") {

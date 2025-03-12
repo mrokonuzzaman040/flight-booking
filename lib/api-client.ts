@@ -7,9 +7,19 @@ type ApiResponse<T = any> = {
 }
 
 export const apiClient = {
-  async get<T>(endpoint: string): Promise<ApiResponse<T>> {
+  async get<T>(endpoint: string, params?: Record<string, string>): Promise<ApiResponse<T>> {
     try {
-      const response = await fetch(`/api${endpoint}`, {
+      // Build URL with query parameters if they exist
+      let url = `/api${endpoint}`;
+      if (params && Object.keys(params).length > 0) {
+        const searchParams = new URLSearchParams();
+        for (const [key, value] of Object.entries(params)) {
+          if (value) searchParams.append(key, value);
+        }
+        url += `?${searchParams.toString()}`;
+      }
+
+      const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

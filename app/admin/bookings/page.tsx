@@ -95,9 +95,9 @@ export default function AdminBookingsPage() {
 
       const response = await apiClient.get<BookingsResponse>("/bookings", params)
 
-      if (response.success) {
-        setBookings(response.bookings)
-        setPagination(response.pagination)
+      if (response.success && response.data) {
+        setBookings(response.data.bookings)
+        setPagination(response.data.pagination)
       }
     } catch (error) {
       console.error("Error fetching bookings:", error)
@@ -127,12 +127,12 @@ export default function AdminBookingsPage() {
     }
   }
 
-  const getStatusBadgeVariant = (status: string) => {
+  const getStatusBadgeVariant = (status: string): "default" | "destructive" | "outline" | "secondary" => {
     switch (status) {
       case "Pending":
         return "outline"
       case "Confirmed":
-        return "success"
+        return "default" // Changed from "success" to "default"
       case "Cancelled":
         return "destructive"
       case "Completed":
@@ -142,14 +142,14 @@ export default function AdminBookingsPage() {
     }
   }
 
-  const getPaymentStatusBadgeVariant = (status: string) => {
+  const getPaymentStatusBadgeVariant = (status: string): "default" | "destructive" | "outline" | "secondary" => {
     switch (status) {
       case "Unpaid":
         return "outline"
       case "Paid":
-        return "success"
+        return "default" // Changed from "success" to "default"
       case "Refunded":
-        return "warning"
+        return "outline" // Changed from "warning" to "outline"
       default:
         return "secondary"
     }

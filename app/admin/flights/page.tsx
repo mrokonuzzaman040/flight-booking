@@ -83,10 +83,10 @@ export default function AdminFlightsPage() {
       }
 
       const response = await apiClient.get<FlightsResponse>("/flights", params)
-
-      if (response.success) {
-        setFlights(response.flights)
-        setPagination(response.pagination)
+  
+      if (response.success && response.data) {
+        setFlights(response.data.flights)
+        setPagination(response.data.pagination)
       }
     } catch (error) {
       console.error("Error fetching flights:", error)
@@ -116,16 +116,16 @@ export default function AdminFlightsPage() {
     }
   }
 
-  const getStatusBadgeVariant = (status: string) => {
+  const getStatusBadgeVariant = (status: string): "default" | "destructive" | "outline" | "secondary" => {
     switch (status) {
       case "Scheduled":
         return "outline"
       case "Delayed":
-        return "warning"
+        return "secondary" // Changed from "warning"
       case "Cancelled":
         return "destructive"
       case "Completed":
-        return "success"
+        return "outline" // Changed from "success"
       default:
         return "secondary"
     }

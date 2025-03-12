@@ -10,13 +10,22 @@ import { TopDestinations } from "@/components/admin/top-destinations"
 import { apiClient } from "@/lib/api-client"
 import { Skeleton } from "@/components/ui/skeleton"
 
+// Add explicit type definition for TopDestination
+interface TopDestination {
+  code: string;
+  name?: string;
+  bookings: number;
+  percentage: number;
+  trend: "up" | "down";
+}
+
 interface DashboardStats {
   totalBookings: number
   totalRevenue: number
   activeUsers: number
   activeFlights: number
   revenueData: { name: string; revenue: number }[]
-  topDestinations: { code: string; name?: string; bookings: number; percentage: number; trend: string }[]
+  topDestinations: TopDestination[]
   recentBookings: any[]
 }
 
@@ -188,7 +197,7 @@ export default function AdminDashboard() {
                 <CardDescription>Monthly revenue for the current year</CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
-                <DashboardChart data={stats?.revenueData} />
+                <DashboardChart data={stats?.revenueData || []} />
               </CardContent>
             </Card>
             <Card className="lg:col-span-3">
@@ -197,7 +206,7 @@ export default function AdminDashboard() {
                 <CardDescription>Most popular destinations this month</CardDescription>
               </CardHeader>
               <CardContent>
-                <TopDestinations destinations={stats?.topDestinations} />
+                <TopDestinations data={stats?.topDestinations || []} />
               </CardContent>
             </Card>
           </div>
@@ -207,7 +216,7 @@ export default function AdminDashboard() {
               <CardDescription>Latest bookings across all routes</CardDescription>
             </CardHeader>
             <CardContent>
-              <RecentBookings bookings={stats?.recentBookings} />
+              <RecentBookings data={stats?.recentBookings || []} />
             </CardContent>
           </Card>
         </TabsContent>
